@@ -1,7 +1,7 @@
 # BaseComputer
 
 ## Телеграм канал с новостями о программе
-** https://t.me/BaseComputer **
+**https://t.me/BaseComputer**
 
 ## Формат .bc
 Используется для записи програм в память БЭВМ
