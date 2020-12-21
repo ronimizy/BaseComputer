@@ -14,7 +14,7 @@ class HTML
     }
     
     static func tableOpen() -> String {
-        return "<table align = \"center\" bgcolor=\"#d6d6d6\" border = \"0\" cellpadding = \"0\" cellspacing = \"0\" width = \"100%\">\n"
+        return "<table align = \"center\" bgcolor=\"#d6d6d6\" border = \"0\" cellpadding = \"2\" cellspacing = \"0\" width = \"100%\">\n"
     }
     
     static func tableHeader(_ titles: [String], attributes: String = "") -> String {

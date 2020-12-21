@@ -265,14 +265,15 @@ func saveTracing(_ traceTable: [CommandStatus], mode: Bool) {
             file += HTML.tableOpen()
             
             
-            file += HTML.tableHeader(["СК", "Команда", "Мнемоника","А", "С", "РА", "РК", "РД", "РС", "Номер ячейки поменявшей значение","Новое значение", "ВУ 1 Статус", "ВУ 1 Значение", "ВУ 2 Статус", "ВУ 2 Значение", "ВУ 3 Статус", "ВУ 3 Значение"],
-                                     attributes: "align=\"left\"")
+            file += HTML.tableHeader(["СК", "Команда", "", "","А", "С", "РА", "РК", "РД", "РС", "Номер ячейки поменявшей значение","Новое значение", "ВУ-1 Статус", "ВУ-1 Значение", "ВУ-2 Статус", "ВУ-2 Значение", "ВУ-3 Статус", "ВУ-3 Значение"],
+                                     attributes: "align=\"right\" bgcolor=\"silver\"")
             
             for command in traceTable {
                 file += HTML.tableRow(
                     [String(command.command.number, radix: 16).commandFormat(3),
                      command.command.string,
-                     command.command.mnemonics,
+                     "",
+                     "",
                      String.init(command.accumulator, radix: 16).commandFormat(),
                      command.shift ? "1" : "0",
                      String.init(command.addressRegister, radix: 16).commandFormat(),
@@ -284,16 +285,15 @@ func saveTracing(_ traceTable: [CommandStatus], mode: Bool) {
                      command.externalDevices[0].isReady ? "Готов" : "Не готов", command.externalDevices[0].string,
                      command.externalDevices[1].isReady ? "Готов" : "Не готов", command.externalDevices[1].string,
                      command.externalDevices[2].isReady ? "Готов" : "Не готов", command.externalDevices[2].string],
-                    attributes: "bgcolor=\"gray\" align=\"left\"")
+                    attributes: "bgcolor=\"\(mode ? "gray" : "#d6d6d6")\" align=\"right\"")
                 
                 if mode {
-                    file += HTML.tableHeader(["", "СМК", "Микро команда", "РМК", "БР", "А", "С", "РА", "РК", "РД", "РС", "ВУ 1 Статус", "ВУ 1 Значение", "ВУ 2 Статус", "ВУ 2 Значение", "ВУ 3 Статус", "ВУ 3 Значение"],
-                                             attributes: "align=\"right\"")
+                    file += HTML.tableHeader(["СМК", "Микро-команда", "РМК", "БР", "", "", "", "", "", "", "", "","", "", "", "", "", ""],
+                                             attributes: "align=\"right\" bgcolor=\"silver\"")
                     
                     for mStat in command.microCommands {
                         file += HTML.tableRow(
-                            ["",
-                             String(mStat.microCommand.number, radix: 16).commandFormat(3),
+                            [String(mStat.microCommand.number, radix: 16).commandFormat(3),
                              mStat.microCommand.string,
                              String.init(mStat.microCommandRegister, radix: 16).commandFormat(),
                              String.init(mStat.buffer, radix: 16).commandFormat(),
@@ -302,10 +302,12 @@ func saveTracing(_ traceTable: [CommandStatus], mode: Bool) {
                              String.init(mStat.commandRegister, radix: 16).commandFormat(),
                              String.init(mStat.dataRegister, radix: 16).commandFormat(),
                              String.init(mStat.statusRegister, radix: 16).commandFormat(),
+                             "",
+                             "",
                              mStat.externalDevices[0].isReady ? "Готов" : "Не готов", mStat.externalDevices[0].string,
                              mStat.externalDevices[1].isReady ? "Готов" : "Не готов", mStat.externalDevices[1].string,
                              mStat.externalDevices[2].isReady ? "Готов" : "Не готов", mStat.externalDevices[2].string],
-                            attributes: "bgcolor=\"silver\" align=\"right\"")
+                            attributes: "bgcolor=\"#d6d6d6\" align=\"right\"")
                     }
                 }
             }
