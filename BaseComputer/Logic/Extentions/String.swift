@@ -9,13 +9,13 @@ import SwiftUI
 
 extension String
 {    
-    func commandFormat(_ len: Int = 4) -> String
+    func commandFormat(_ length: Int = 4) -> String
     {
-        return self.setLength(len).uppercased()
+        return self.setLength(length).uppercased()
     }
     
-    mutating func commandFormat(_ len: Int = 4) {
-        self = self.commandFormat(len)
+    mutating func commandFormat(_ length: Int = 4) {
+        self = self.commandFormat(length)
     }
     
     func setLength(_ length: Int) -> String

@@ -14,11 +14,11 @@ class HTML
     }
     
     static func tableOpen() -> String {
-        return "<table align = \"center\" border = \"1\" cellpadding = \"0\" cellspacing = \"0\" width = \"100%\">\n"
+        return "<table align = \"center\" bgcolor=\"#d6d6d6\" border = \"0\" cellpadding = \"0\" cellspacing = \"0\" width = \"100%\">\n"
     }
     
-    static func tableHeader(_ titles: [String]) -> String {
-        var result: String = "\t\t<tr>\r"
+    static func tableHeader(_ titles: [String], attributes: String = "") -> String {
+        var result: String = "\t\t<tr \(attributes) >\r"
         
         for title in titles {
             result += "\t\t\t<th>\(title)</th>\r"
@@ -29,8 +29,8 @@ class HTML
         return result
     }
     
-    static func tableRow(_ content: [String]) -> String {
-        var result: String = "\t\t<tr>\n\t\t"
+    static func tableRow(_ content: [String], attributes: String = "") -> String {
+        var result: String = "\t\t<tr \(attributes) >\n\t\t"
         
         for i in content {
             result += "<td>\(i)</td>"

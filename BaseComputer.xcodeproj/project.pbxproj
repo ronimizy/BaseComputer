@@ -34,11 +34,11 @@
 		5E36526C25757EB900BEB055 /* ComputerCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E36526B25757EB900BEB055 /* ComputerCommand.swift */; };
 		5E684E4D25826DAE00C6A17B /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E684E4C25826DAE00C6A17B /* Array.swift */; };
 		5E684E50258270F300C6A17B /* Abs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E684E4F258270F300C6A17B /* Abs.swift */; };
-		5E697B662573A089006307A5 /* MicroCommandLevelStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E697B652573A089006307A5 /* MicroCommandLevelStatus.swift */; };
 		5E697B692573A79A006307A5 /* HTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E697B682573A79A006307A5 /* HTML.swift */; };
 		5E6C84F4258B43CA0069E76B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 5E6C84F3258B43CA0069E76B /* README.md */; };
 		5E6C84F7258B43F00069E76B /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 5E6C84F6258B43F00069E76B /* .gitignore */; };
-		5E7CBCB225739DB700FAFAAF /* CommandLevelStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7CBCB125739DB700FAFAAF /* CommandLevelStatus.swift */; };
+		5E6C84FE2590C26A0069E76B /* MicroCommandStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6C84FD2590C26A0069E76B /* MicroCommandStatus.swift */; };
+		5E7CBCB225739DB700FAFAAF /* CommandStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7CBCB125739DB700FAFAAF /* CommandStatus.swift */; };
 		5EB6ADEC257AB4F700E5C42A /* NSString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB6ADEB257AB4F700E5C42A /* NSString.swift */; };
 /* End PBXBuildFile section */
 
@@ -73,11 +73,11 @@
 		5E36526B25757EB900BEB055 /* ComputerCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComputerCommand.swift; sourceTree = "<group>"; };
 		5E684E4C25826DAE00C6A17B /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		5E684E4F258270F300C6A17B /* Abs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Abs.swift; sourceTree = "<group>"; };
-		5E697B652573A089006307A5 /* MicroCommandLevelStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicroCommandLevelStatus.swift; sourceTree = "<group>"; };
 		5E697B682573A79A006307A5 /* HTML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTML.swift; sourceTree = "<group>"; };
 		5E6C84F3258B43CA0069E76B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5E6C84F6258B43F00069E76B /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		5E7CBCB125739DB700FAFAAF /* CommandLevelStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandLevelStatus.swift; sourceTree = "<group>"; };
+		5E6C84FD2590C26A0069E76B /* MicroCommandStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicroCommandStatus.swift; sourceTree = "<group>"; };
+		5E7CBCB125739DB700FAFAAF /* CommandStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandStatus.swift; sourceTree = "<group>"; };
 		5EB6ADEB257AB4F700E5C42A /* NSString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSString.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -223,9 +223,9 @@
 		5E7CBCB025739DA800FAFAAF /* Tracing */ = {
 			isa = PBXGroup;
 			children = (
-				5E7CBCB125739DB700FAFAAF /* CommandLevelStatus.swift */,
-				5E697B652573A089006307A5 /* MicroCommandLevelStatus.swift */,
+				5E7CBCB125739DB700FAFAAF /* CommandStatus.swift */,
 				5E697B682573A79A006307A5 /* HTML.swift */,
+				5E6C84FD2590C26A0069E76B /* MicroCommandStatus.swift */,
 			);
 			path = Tracing;
 			sourceTree = "<group>";
@@ -257,7 +257,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1220;
-				LastUpgradeCheck = 1220;
+				LastUpgradeCheck = 1230;
 				TargetAttributes = {
 					5E279FC9256C549F00045ED5 = {
 						CreatedOnToolsVersion = 12.2;
@@ -303,6 +303,7 @@
 			files = (
 				5E27A011256C54F200045ED5 /* MicroCommandCellView.swift in Sources */,
 				5E279FFB256C54CB00045ED5 /* String.swift in Sources */,
+				5E6C84FE2590C26A0069E76B /* MicroCommandStatus.swift in Sources */,
 				5E27A012256C54F200045ED5 /* ContentView.swift in Sources */,
 				5E279FFA256C54CB00045ED5 /* UInt16.swift in Sources */,
 				5E27A003256C54CB00045ED5 /* ExternalDevice.swift in Sources */,
@@ -315,7 +316,7 @@
 				5E684E50258270F300C6A17B /* Abs.swift in Sources */,
 				5E27A007256C54CB00045ED5 /* Computer.swift in Sources */,
 				5E279FFC256C54CB00045ED5 /* Accumulator.swift in Sources */,
-				5E7CBCB225739DB700FAFAAF /* CommandLevelStatus.swift in Sources */,
+				5E7CBCB225739DB700FAFAAF /* CommandStatus.swift in Sources */,
 				5E27A006256C54CB00045ED5 /* Program.swift in Sources */,
 				5E279FFF256C54CB00045ED5 /* CommandRegister.swift in Sources */,
 				5E27A004256C54CB00045ED5 /* Command.swift in Sources */,
@@ -327,7 +328,6 @@
 				5E697B692573A79A006307A5 /* HTML.swift in Sources */,
 				5E27A002256C54CB00045ED5 /* StatusRegister.swift in Sources */,
 				5E279FFD256C54CB00045ED5 /* CommandCounter.swift in Sources */,
-				5E697B662573A089006307A5 /* MicroCommandLevelStatus.swift in Sources */,
 				5E279FCE256C549F00045ED5 /* BaseComputerApp.swift in Sources */,
 				5E27A008256C54CB00045ED5 /* MicroCommandRegister.swift in Sources */,
 			);
@@ -457,6 +457,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BaseComputer/BaseComputer.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"BaseComputer/Preview Content\"";
@@ -481,6 +482,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = BaseComputer/BaseComputer.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"BaseComputer/Preview Content\"";

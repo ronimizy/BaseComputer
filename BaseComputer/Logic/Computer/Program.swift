@@ -39,4 +39,15 @@ struct Program
             commands[index] = newValue
         }
     }
+    subscript(_ index: UInt16) -> Command
+    {
+        get
+        {
+            return commands[Int(index)]
+        }
+        set
+        {
+            commands[Int(index)] = newValue
+        }
+    }
 }

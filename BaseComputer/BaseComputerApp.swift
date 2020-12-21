@@ -21,7 +21,7 @@ struct BaseComputerApp: App {
             ContentView(mode: $mode)
                 .environmentObject(computer)
                 .frame(minHeight: 450)
-                .frame(width: 670)
+                .frame(width: mode ? 870 : 670)
         }
         .commands {
             CommandGroup(after: CommandGroupPlacement.newItem) {
@@ -59,8 +59,8 @@ struct BaseComputerApp: App {
                 
                 Button("Trace Commands") { computer.trace(false) }
                     .keyboardShortcut("t", modifiers: [.command])
-//                Button("Trace Micro Commands") { computer.trace(true) }
-//                    .keyboardShortcut("t", modifiers: [.command, .shift])
+                Button("Trace Micro Commands") { computer.trace(true) }
+                    .keyboardShortcut("t", modifiers: [.command, .shift])
                 
                 Divider()
                 

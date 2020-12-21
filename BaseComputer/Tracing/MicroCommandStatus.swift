@@ -1,30 +1,26 @@
 //
-//  Status.swift
+//  MicroCommandStatus.swift
 //  BaseComputer
 //
-//  Created by Георгий Круглов on 29.11.2020.
+//  Created by Георгий Круглов on 21.12.2020.
 //
 
-import SwiftUI
+import Foundation
 
-protocol Status {
-}
-
-class CommandLevelStatus: Status
-{
-    var command: Command
-    var shift: Bool
+class MicroCommandStatus {
     var accumulator: UInt16
+    var shift: Bool
     var addressRegister: UInt16
     var commandRegister: UInt16
     var dataRegister: UInt16
     var statusRegister: UInt16
     var externalDevices: [ExternalDevice]
-    var changedCommand: Command? = nil
     
+    var microCommand: MicroCommand
+    var microCommandRegister: UInt16
+    var buffer: UInt32
     
-    init(_ computer: Computer, changed: Command? = nil, command: Command) {
-        self.command = command
+    init(_ computer: Computer) {
         self.shift = computer.shift.value
         self.accumulator = computer.accumulator.value
         self.addressRegister = computer.addressRegister.value
@@ -32,6 +28,9 @@ class CommandLevelStatus: Status
         self.dataRegister = computer.dataRegister.value
         self.statusRegister = computer.statusRegister.value
         self.externalDevices = computer.externalDevices
-        self.changedCommand = changed
+        
+        self.microCommand = computer.microCommandManager.microCommandMemory[computer.microCommandManager.microCommandCounter.getValue() - 1]
+        self.microCommandRegister = computer.microCommandManager.microCommandRegister.value
+        self.buffer = computer.microCommandManager.buffer
     }
 }

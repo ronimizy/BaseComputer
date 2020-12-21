@@ -244,9 +244,7 @@ func insertMicroProgram(_ computer: Computer) {
 }
 
 
-func saveTracing(_ traceTable: [Status], mode: Bool) {
-    
-    
+func saveTracing(_ traceTable: [CommandStatus], mode: Bool) {
     let manager = FileManager.default
     guard let window: NSWindow = NSApplication.shared.keyWindow else { return }
     let panel = NSSavePanel()
@@ -266,44 +264,49 @@ func saveTracing(_ traceTable: [Status], mode: Bool) {
             file += HTML.header("Трассировка программы")
             file += HTML.tableOpen()
             
-            if mode {
-                file += HTML.tableHeader(["СМК", "Микро команда", "РМК", "БР", "А", "С", "РА", "РК", "РД", "РС", "ВУ 1 Статус", "ВУ 1 Значение", "ВУ 2 Статус", "ВУ 2 Значение", "ВУ 3 Статус", "ВУ 3 Значение"])
+            
+            file += HTML.tableHeader(["СК", "Команда", "Мнемоника","А", "С", "РА", "РК", "РД", "РС", "Номер ячейки поменявшей значение","Новое значение", "ВУ 1 Статус", "ВУ 1 Значение", "ВУ 2 Статус", "ВУ 2 Значение", "ВУ 3 Статус", "ВУ 3 Значение"],
+                                     attributes: "align=\"left\"")
+            
+            for command in traceTable {
+                file += HTML.tableRow(
+                    [String(command.command.number, radix: 16).commandFormat(3),
+                     command.command.string,
+                     command.command.mnemonics,
+                     String.init(command.accumulator, radix: 16).commandFormat(),
+                     command.shift ? "1" : "0",
+                     String.init(command.addressRegister, radix: 16).commandFormat(),
+                     String.init(command.commandRegister, radix: 16).commandFormat(),
+                     String.init(command.dataRegister, radix: 16).commandFormat(),
+                     String.init(command.statusRegister, radix: 16).commandFormat(),
+                     command.changedCommand == nil ? "" : String.init(command.changedCommand!.number, radix: 16).commandFormat(3),
+                     command.changedCommand == nil ? "" : command.changedCommand!.string,
+                     command.externalDevices[0].isReady ? "Готов" : "Не готов", command.externalDevices[0].string,
+                     command.externalDevices[1].isReady ? "Готов" : "Не готов", command.externalDevices[1].string,
+                     command.externalDevices[2].isReady ? "Готов" : "Не готов", command.externalDevices[2].string],
+                    attributes: "bgcolor=\"gray\" align=\"left\"")
                 
-                for stat in traceTable as! [MicroCommandLevelStatus] {
-                    file += HTML.tableRow(
-                        [String(stat.microCommand.number, radix: 16).commandFormat(3),
-                         stat.microCommand.string,
-                         String.init(stat.microCommandRegister, radix: 16).commandFormat(),
-                         String.init(stat.buffer, radix: 16).commandFormat(),
-                         String.init(stat.accumulator, radix: 16).commandFormat(),
-                         stat.shift ? "1" : "0", String.init(stat.addressRegister, radix: 16),
-                         String.init(stat.commandRegister, radix: 16),
-                         String.init(stat.dataRegister, radix: 16),
-                         String.init(stat.statusRegister, radix: 16),
-                        stat.externalDevices[0].isReady ? "Готов" : "Не готов", stat.externalDevices[0].string,
-                        stat.externalDevices[1].isReady ? "Готов" : "Не готов", stat.externalDevices[1].string,
-                        stat.externalDevices[2].isReady ? "Готов" : "Не готов", stat.externalDevices[2].string])
-                }
-            } else {
-                file += HTML.tableHeader(["СК", "Команда", "Мнемоника","А", "С", "РА", "РК", "РД", "РС", "Номер ячейки поменявшей значение","Новое значение", "ВУ 1 Статус", "ВУ 1 Значение", "ВУ 2 Статус", "ВУ 2 Значение", "ВУ 3 Статус", "ВУ 3 Значение"])
-                
-                for stat in traceTable as! [CommandLevelStatus] {
-                    file += HTML.tableRow(
-                        [String(stat.command.number, radix: 16).commandFormat(3),
-                         stat.command.string,
-                         stat.command.mnemonics,
-                         String.init(stat.accumulator, radix: 16).commandFormat(),
-                         stat.shift ? "1" : "0",
-                         String.init(stat.addressRegister, radix: 16).commandFormat(),
-                         String.init(stat.commandRegister, radix: 16).commandFormat(),
-                         String.init(stat.dataRegister, radix: 16).commandFormat(),
-                         String.init(stat.statusRegister, radix: 16).commandFormat(),
-                         stat.changedCommand == nil ? "" : String.init(stat.changedCommand!.number, radix: 16).commandFormat(3),
-                         stat.changedCommand == nil ? "" : stat.changedCommand!.string,
-                         stat.externalDevices[0].isReady ? "Готов" : "Не готов",
-                         stat.externalDevices[0].string, stat.externalDevices[1].isReady ? "Готов" : "Не готов",
-                         stat.externalDevices[1].string, stat.externalDevices[2].isReady ? "Готов" : "Не готов",
-                         stat.externalDevices[2].string])
+                if mode {
+                    file += HTML.tableHeader(["", "СМК", "Микро команда", "РМК", "БР", "А", "С", "РА", "РК", "РД", "РС", "ВУ 1 Статус", "ВУ 1 Значение", "ВУ 2 Статус", "ВУ 2 Значение", "ВУ 3 Статус", "ВУ 3 Значение"],
+                                             attributes: "align=\"right\"")
+                    
+                    for mStat in command.microCommands {
+                        file += HTML.tableRow(
+                            ["",
+                             String(mStat.microCommand.number, radix: 16).commandFormat(3),
+                             mStat.microCommand.string,
+                             String.init(mStat.microCommandRegister, radix: 16).commandFormat(),
+                             String.init(mStat.buffer, radix: 16).commandFormat(),
+                             String.init(mStat.accumulator, radix: 16).commandFormat(),
+                             mStat.shift ? "1" : "0", String.init(command.addressRegister, radix: 16),
+                             String.init(mStat.commandRegister, radix: 16).commandFormat(),
+                             String.init(mStat.dataRegister, radix: 16).commandFormat(),
+                             String.init(mStat.statusRegister, radix: 16).commandFormat(),
+                             mStat.externalDevices[0].isReady ? "Готов" : "Не готов", mStat.externalDevices[0].string,
+                             mStat.externalDevices[1].isReady ? "Готов" : "Не готов", mStat.externalDevices[1].string,
+                             mStat.externalDevices[2].isReady ? "Готов" : "Не готов", mStat.externalDevices[2].string],
+                            attributes: "bgcolor=\"silver\" align=\"right\"")
+                    }
                 }
             }
             

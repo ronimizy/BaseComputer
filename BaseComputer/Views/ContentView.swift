@@ -68,7 +68,7 @@ struct ContentView: View
                     
                     Spacer().frame(height: cellHeight)
                 }
-                .frame(width: g.size.width / 3.5)
+                .frame(width: g.size.width / (mode ? 2.3 : 3.5))
                 .padding(.leading)
                 
                 
@@ -216,7 +216,9 @@ struct ContentView: View
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(mode: .constant(false)).environmentObject(Computer(10))
-            .frame(width: 670, height: 450)
+        let mode = true
+        
+        ContentView(mode: .constant(mode)).environmentObject(Computer(10))
+            .frame(width: mode ? 870 : 670, height: 450)
     }
 }

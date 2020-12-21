@@ -39,20 +39,40 @@ class Computer: ObservableObject
     
     func trace(_ mode: Bool)
     {
-        var traceTable: [Status] = []
-        var bufferCommands: [Command] = self.program.commands
+        var traceTable: [CommandStatus] = []
         
         
-        while statusRegister.working && traceTable.count < 4096 {
-            self.execute()
-            for i in bufferCommands.indices {
-                if bufferCommands[i].value != self.program[i].value {
-                    traceTable.append(mode ? MicroCommandLevelStatus(self) : CommandLevelStatus(self, changed: self.program[i], command: program[Int(commandCounter.getValue())-1]))
+        while statusRegister.working && traceTable.count < 2048 {
+            let commandsBuffer: [Command] = program.commands
+            let command = program[commandCounter.getValue()]
+            var microCommands: [MicroCommandStatus] = []
+            var changed: Command?
+            
+            if mode {
+                repeat {
+                    microCommandManager.execute()
+                    microCommands.append(MicroCommandStatus(self))
+                } while microCommandManager.microCommandCounter.getValue() != 1
+            } else {
+                execute()
+            }
+            
+            for i in program.commands.indices {
+                if program[i].value != commandsBuffer[i].value {
+                    changed = commandsBuffer[i]
                     break
                 }
-                if i == bufferCommands.count-1 { traceTable.append(mode ? MicroCommandLevelStatus(self) : CommandLevelStatus(self, command: program[Int(commandCounter.getValue())-1])) }
             }
-            bufferCommands = program.commands
+            
+            traceTable.append(CommandStatus(self, command, microCommands, changed))
+        }
+        
+        if traceTable.count == 2048 {
+            let alert = NSAlert()
+            alert.alertStyle = .critical
+            alert.messageText = "Максимальный размер таблицы трассировки достигнут!\nПроверьте правильность программы"
+            
+            alert.runModal()
         }
         
         print("Program execution while tracing done")

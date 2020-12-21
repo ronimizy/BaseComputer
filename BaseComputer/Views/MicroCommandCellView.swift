@@ -11,7 +11,7 @@ struct MicroCommandCellView: View {
     @EnvironmentObject var computer: Computer
     
     var number: Int
-
+    
     init(_ number: Int = 0)
     {
         self.number = number
@@ -23,7 +23,7 @@ struct MicroCommandCellView: View {
             HStack
             {
                 Text(String(number, radix: 16).commandFormat(2))
-                    .frame(width: g.size.width / 5)
+                    .frame(width: g.size.width / 10)
                     .multilineTextAlignment(.leading)
                     .padding(.leading, 2)
                 
@@ -32,9 +32,16 @@ struct MicroCommandCellView: View {
                 } onCommit: {
                     computer.microCommandManager.microCommandMemory[number].string.commandFormat()
                 }
-                .frame(width: g.size.width/3)
+                .frame(width: g.size.width/5)
                 .frame(maxHeight: .infinity)
-
+                
+                HStack {
+                    Text(computer.microCommandManager.microCommandMemory[number].mnemonics)
+                    Spacer()
+                }
+                .frame(width: g.size.width / 1.5)
+                .multilineTextAlignment(.leading)
+                .padding(.leading, 2)
             }
             .frame(width: g.size.width, height: g.size.height)
             .border(number == computer.microCommandManager.microCommandCounter.getValue() ? Color.blue : Color.clear)
