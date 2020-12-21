@@ -10,11 +10,32 @@ import SwiftUI
 class HTML
 {
     static func header(_ title: String = "Title") -> String {
-        return "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n\t<meta charset = \"UTF-8\">\n\t<title>\(title)</title>\n</head>\n<body>\r"
+        var header = ""
+        
+        header += "<!DOCTYPE html>\n"
+        header += "<html lang=\"en\">\n"
+        
+        header += "<head>\n"
+        
+        
+        header += "\t<meta charset = \"UTF-8\">\n"
+        header += "\t<title>\(title)</title>\n"
+        
+        header += "\t<style>\n"
+        
+        header += "\t\ttable { \n\t\t\tborder-collapse: collapse; \n\t\t}"
+        
+        header += "\t</style>\n"
+        
+        
+        header += "</head>"
+        header += "\n<body>\r"
+        
+        return header
     }
     
-    static func tableOpen() -> String {
-        return "<table align = \"center\" bgcolor=\"#d6d6d6\" border = \"0\" cellpadding = \"2\" cellspacing = \"0\" width = \"100%\">\n"
+    static func tableOpen(align: String = "center",color: String = "#d6d6d6", border: Int = 0, padding: Int = 2, spacing: Int = 0, width: Int = 100) -> String {
+        return "<table align = \"\(align)\" bgcolor=\"\(color)\" border = \"\(border)\" cellpadding = \"\(padding)\" cellspacing = \"\(spacing)\" width = \"\(width)%\">\n"
     }
     
     static func tableHeader(_ titles: [String], attributes: String = "") -> String {

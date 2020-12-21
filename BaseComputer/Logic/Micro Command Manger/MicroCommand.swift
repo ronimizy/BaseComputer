@@ -165,7 +165,7 @@ struct MicroCommand: ComputerCommand
                 
                 result += "(\(bitChecked())) == \(compareField()) THEN "
                 
-                result += "\(String.init(address(), radix: 16).commandFormat()) -> CK"
+                result += "\(String.init(address(), radix: 16).commandFormat(2)) -> CМK"
                 
                 return result
                 

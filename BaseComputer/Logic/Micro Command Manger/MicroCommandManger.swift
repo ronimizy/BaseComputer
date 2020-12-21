@@ -161,9 +161,9 @@ struct MicroCommandManger
             case 0:
                 ()
             case 1:
-                buffer = (UInt32(accumulator.value) >> 1) + UInt32(accumulator.value.getBitsValue(0)) == 1 ? UInt32(0x1p16) : 0
+                buffer = (UInt32(accumulator.value) >> 1) + (accumulator.value.getBitsValue(0) == 1 ? UInt32(0x1p15) : 0)
             case 2:
-                buffer = UInt32(accumulator.value) << 1
+                buffer = UInt32(accumulator.value) << 1 + (accumulator.value.getBitsValue(15) == 1 ? 1 : 0)
             default:
                 print("Command \(command.number) [\(command.string)] default on shifts, value: \(command.shifts())")
             }

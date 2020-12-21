@@ -26,7 +26,7 @@ struct BaseComputerApp: App {
         .commands {
             CommandGroup(after: CommandGroupPlacement.newItem) {
                 Divider()
-                Button("Open Program") { openProgram(computer) }
+                Button("Open Program") { computer.clear(); openProgram(computer) }
                     .keyboardShortcut("o", modifiers: .command)
                 Button("Save Program") { saveProgram(computer) }
                     .keyboardShortcut("s", modifiers: .command)
@@ -61,6 +61,8 @@ struct BaseComputerApp: App {
                     .keyboardShortcut("t", modifiers: [.command])
                 Button("Trace Micro Commands") { computer.trace(true) }
                     .keyboardShortcut("t", modifiers: [.command, .shift])
+                Button("Program Description") { saveDescription(computer.program.description) }
+                    .keyboardShortcut("d", modifiers: [.command, .shift])
                 
                 Divider()
                 

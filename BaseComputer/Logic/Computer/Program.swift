@@ -15,6 +15,27 @@ struct Program
     
     var start: UInt16
     
+    var description: [[String]] {
+        get {
+            var array: [[String]] = []
+            
+            for i in 0..<2048 {
+                if !(commands[i].value == 0 && (i != 0 && commands[i-1].value == 0) && (i != 2047 && commands[i+1].value == 0)) {
+                    let command = commands[i]
+                    
+                    array.append([
+                        String.init(i, radix: 16).commandFormat(3),
+                        command.string,
+                        command.mnemonics,
+                        command.description
+                    ])
+                }
+            }
+            
+            return array
+        }
+    }
+    
     init(_ start: UInt16 = 0, _ size: Int = 2048)
     {
         var array: [Command] = []

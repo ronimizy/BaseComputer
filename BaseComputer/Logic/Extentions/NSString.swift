@@ -42,7 +42,7 @@ extension NSString {
                 commandComponents.removeFirst()
             }
             
-            if position == nil && commandComponents.count < 2 {
+            if position == nil && commandComponents.count < 2 || index >= 2048 || index < 0 {
                 let alert = NSAlert()
                 alert.alertStyle = .critical
                 alert.messageText = "Wrong command format"
@@ -52,14 +52,6 @@ extension NSString {
                 return nil
             }
             
-
-            if program.commands.count <= index + Int(position ?? 0) - offset
-            {
-                for i in program.commands.count...(index + Int(position ?? 0) - offset)
-                {
-                    program.commands.append(Command(number: i, value: "0000"))
-                }
-            }
             program.commands[index] = Command(number: index, value: UInt16.init(commandComponents[position == nil ? 1 : 0], radix: 16) ?? 0)
             print(String.init(index, radix: 16), index)
         }
