@@ -298,12 +298,13 @@ func saveTracing(_ traceTable: [CommandStatus], mode: Bool) {
                     
                     for mStat in command.microCommands {
                         file += HTML.tableRow(
-                            [String(mStat.microCommand.number, radix: 16).commandFormat(3),
+                            [String(mStat.microCommand.number, radix: 16).commandFormat(2),
                              mStat.microCommand.string,
                              String.init(mStat.microCommandRegister, radix: 16).commandFormat(),
                              String.init(mStat.buffer, radix: 16).commandFormat(),
                              String.init(mStat.accumulator, radix: 16).commandFormat(),
-                             mStat.shift ? "1" : "0", String.init(command.addressRegister, radix: 16),
+                             mStat.shift ? "1" : "0",
+                             String.init(command.addressRegister, radix: 16).commandFormat(),
                              String.init(mStat.commandRegister, radix: 16).commandFormat(),
                              String.init(mStat.dataRegister, radix: 16).commandFormat(),
                              String.init(mStat.statusRegister, radix: 16).commandFormat(),
