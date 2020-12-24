@@ -50,8 +50,9 @@ class Computer: ObservableObject
             
             if mode {
                 repeat {
+                    let microCommand = microCommandManager.microCommandMemory[microCommandManager.microCommandCounter.getValue()]
                     microCommandManager.execute()
-                    microCommands.append(MicroCommandStatus(self))
+                    microCommands.append(MicroCommandStatus(self, microCommand))
                 } while microCommandManager.microCommandCounter.getValue() != 1
             } else {
                 execute()
@@ -110,6 +111,7 @@ class Computer: ObservableObject
         self.microCommandManager.microCommandCounter.setValue(1)
         self.microCommandManager.microCommandRegister.value = 0
         self.microCommandManager.buffer = 0
+        self.microCommandManager.microCommandMemory = MicroCommand.array(MicroCommandManger.defaultCommands)
         
         self.externalDevices = [ExternalDevice(), ExternalDevice(), ExternalDevice()]
     }

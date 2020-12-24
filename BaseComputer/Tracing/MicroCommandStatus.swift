@@ -20,7 +20,7 @@ class MicroCommandStatus {
     var microCommandRegister: UInt16
     var buffer: UInt32
     
-    init(_ computer: Computer) {
+    init(_ computer: Computer, _ microCommand: MicroCommand) {
         self.shift = computer.shift.value
         self.accumulator = computer.accumulator.value
         self.addressRegister = computer.addressRegister.value
@@ -29,7 +29,7 @@ class MicroCommandStatus {
         self.statusRegister = computer.statusRegister.value
         self.externalDevices = computer.externalDevices
         
-        self.microCommand = computer.microCommandManager.microCommandMemory[computer.microCommandManager.microCommandCounter.getValue() - 1]
+        self.microCommand = microCommand
         self.microCommandRegister = computer.microCommandManager.microCommandRegister.value
         self.buffer = computer.microCommandManager.buffer
     }

@@ -203,18 +203,17 @@ func insertMicroProgram(_ computer: Computer) {
                 for microCommand in array {
                     let components = microCommand.components(separatedBy: " ")
                     
-                    if components.count != 1 {
+                    if components[0] == "POSITION" {
+                        index = Int(components[1], radix: 16)
+                        continue
+                    }
+                    
+                    if UInt16.init(components[0], radix: 16) == nil {
                         let alert = NSAlert()
                         alert.alertStyle = .critical
                         alert.messageText = "Wrong file format"
                         
                         alert.runModal()
-                        
-                        return
-                    }
-                    
-                    if components[0] == "POSITION" {
-                        index = array.firstIndex(of: microCommand)
                     }
                     
                     commands.append(components[0])
@@ -235,7 +234,7 @@ func insertMicroProgram(_ computer: Computer) {
             } else {
                 let alert = NSAlert()
                 alert.alertStyle = .critical
-                alert.messageText = "File damaged"
+                alert.messageText = "Unable to read the file"
                 
                 alert.runModal()
             }

@@ -96,7 +96,7 @@ struct Command: ComputerCommand
             case "2000":
                 return "[CK] –> \(String.init(value.mask11(), radix: 16).commandFormat(3)); \(String.init(value.mask11(), radix: 16).commandFormat(3)) + 1 –> CK"
             case "3000":
-                return "[A] -> \(String.init(value.mask11(), radix: 16).commandFormat(3))"
+                return "[A] –> \(String.init(value.mask11(), radix: 16).commandFormat(3))"
             case "4000":
                 return "[A] + [\(String.init(value.mask11(), radix: 16).commandFormat(3))] –> A"
             case "5000":
