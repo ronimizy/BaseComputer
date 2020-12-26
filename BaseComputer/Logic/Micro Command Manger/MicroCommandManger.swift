@@ -264,7 +264,7 @@ struct MicroCommandManger
             case 0:
                 ()
             case 1:
-                statusRegister.null = accumulator.value == 0 && shift.value == false
+                statusRegister.null = buffer == 0
             default:
                 print("Micro Command \(command.number) [\(command.string)] default on null, value: \(command.null())")
             }
@@ -273,7 +273,7 @@ struct MicroCommandManger
             case 0:
                 ()
             case 1:
-                statusRegister.sign = accumulator.value.getBitsValue(15) == 1
+                statusRegister.sign = buffer.getBitsValue(15) == 1
             default:
                 print("Micro Command \(command.number) [\(command.string)] default on sign, value: \(command.null())")
             }
