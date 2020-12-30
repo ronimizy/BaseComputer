@@ -26,6 +26,7 @@ struct MicroCommandCellView: View {
                     .frame(width: g.size.width / 10)
                     .multilineTextAlignment(.leading)
                     .padding(.leading, 2)
+                    .help(String(number))
                 
                 TextField("0000", text: $computer.microCommandManager.microCommandMemory[number].string) { (editing) in
                     ()
@@ -36,7 +37,7 @@ struct MicroCommandCellView: View {
                 .frame(maxHeight: .infinity)
                 
                 HStack {
-                    Text(computer.microCommandManager.microCommandMemory[number].mnemonics)
+                    Text(computer.microCommandManager.microCommandMemory[number].description)
                     Spacer()
                 }
                 .frame(width: g.size.width / 1.5)

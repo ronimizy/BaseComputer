@@ -31,7 +31,7 @@ struct MicroCommand: ComputerCommand
         
     }
     
-    var mnemonics: String {
+    var description: String {
         get {
             switch operationCode() {
             case 0:

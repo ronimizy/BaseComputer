@@ -27,12 +27,15 @@ struct CommandCellView: View {
                     Text(String(number, radix: 16).commandFormat(3))
                         .frame(width: g.size.width / 5)
                         .multilineTextAlignment(.leading)
+                        .help(String(number))
                     
                     TextField("0000", text: $computer.program[number].string)
                         .frame(width: g.size.width/3)
+                        .help(computer.program[number].value.signed())
 
                     Text(computer.program[number].mnemonics)
                         .frame(width: g.size.width/2.5, alignment: .center)
+                        .help(computer.program[number].description)
                 }
                 
                 //Spacer()

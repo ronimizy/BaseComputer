@@ -36,4 +36,8 @@ extension UInt32
     {
         return self & ((UInt32(1) << n) - 1)
     }
+    
+    func signed() -> String {
+        return String((self.getBitsValue(15) == 1 ? -1 * Int(UInt32(UInt16.max.getBitsValue(14, 0)) - self.getBitsValue(14, 0) + 1) : Int(self.getBitsValue(14, 0))))
+    }
 }

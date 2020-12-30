@@ -191,11 +191,11 @@ struct MicroCommandManger
             case 1:
                 switch commandRegister.value.maskIOCommand() {
                 case UInt16.init("E000", radix: 16):
-                    externalDevices[abs(commandRegister.value.mask(8) - 1)].isReady = false
+                    externalDevices[abs(commandRegister.value.mask(8) - 1)].isReady = externalDevices[abs(commandRegister.value.mask(8) - 1)].queue != ""
                 case UInt16.init("E100", radix: 16):
                     if externalDevices[abs(commandRegister.value.mask(8) - 1)].isReady { commandCounter.increment() }
                 case UInt16.init("E200", radix: 16):
-                    accumulator.value = UInt16(externalDevices[abs(commandRegister.value.mask(8) - 1)].value)
+                    accumulator.value = UInt16(externalDevices[abs(commandRegister.value.mask(8) - 1)].getValue())
                 case UInt16.init("E300", radix: 16):
                     externalDevices[abs(commandRegister.value.mask(8) - 1)].value = UInt8(accumulator.value.mask(8))
                 default:

@@ -7,8 +7,9 @@
 
 import SwiftUI
 
-struct StatusRegister
-{
+struct StatusRegister {
+    private var computer: Computer?
+    
     var shift: Bool = false
     var null: Bool = true
     var sign: Bool = false
@@ -26,7 +27,14 @@ struct StatusRegister
     }
     
     var interrupted: Bool = false
-    var externalDevice: Bool = false
+    var externalDevice: Bool {
+        get {
+            return computer?.externalDevices[0].isReady ?? false || computer?.externalDevices[1].isReady ?? false || computer?.externalDevices[2].isReady ?? false
+        }
+        set {
+            
+        }
+    }
     var working: Bool = true
     var program: Bool = false
     var commandFetch: Bool = false
@@ -64,7 +72,7 @@ struct StatusRegister
             zero = newValue.getBitsValue(3) == 1
             allowInterrupt = newValue.getBitsValue(4) == 1
             interrupted = newValue.getBitsValue(5) == 1
-            externalDevice = newValue.getBitsValue(6) == 1
+            
             working = newValue.getBitsValue(7) == 1
             program = newValue.getBitsValue(8) == 1
             commandFetch = newValue.getBitsValue(9) == 1
@@ -72,5 +80,9 @@ struct StatusRegister
             execution = newValue.getBitsValue(11) == 1
             IO = newValue.getBitsValue(12) == 1
         }
+    }
+    
+    init(_ computer: Computer? = nil) {
+        self.computer = computer
     }
 }

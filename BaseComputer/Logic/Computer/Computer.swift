@@ -37,12 +37,12 @@ class Computer: ObservableObject
         print("Current MCC is \(microCommandManager.commandCounter.getValue()) the unit executed \(a) commands")
     }
     
-    func trace(_ mode: Bool)
+    func trace(_ mode: Bool, _ size: Int = 1024)
     {
         var traceTable: [CommandStatus] = []
         
         
-        while statusRegister.working && traceTable.count < 2048 {
+        while statusRegister.working && traceTable.count < size {
             let commandsBuffer: [Command] = program.commands
             let command = program[commandCounter.getValue()]
             var microCommands: [MicroCommandStatus] = []
@@ -118,7 +118,6 @@ class Computer: ObservableObject
     
     init(_ size: Int = 2048)
     {
-        
         let program = Binding(get: {
             return self.program
         }, set: { (program) in
@@ -175,6 +174,7 @@ class Computer: ObservableObject
                                                                         commandCounter: commandCounter))
         self._commandRegister = Published(initialValue: CommandRegister(program: program,
                                                                         commandCounter: commandCounter))
+        self._statusRegister = Published(initialValue: StatusRegister(self))
         
         self._microCommandManager = Published(initialValue: MicroCommandManger(program: program,
                                                                                shift: shift,

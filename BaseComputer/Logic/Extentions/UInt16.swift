@@ -35,4 +35,8 @@ extension UInt16
         }
         return UInt16(0)
     }
+    
+    func signed() -> String {
+        return String((self.getBitsValue(15) == 1 ? -1 * Int(UInt16.max.getBitsValue(14, 0) - self.getBitsValue(14, 0) + 1) : Int(self.getBitsValue(14, 0))))
+    }
 }

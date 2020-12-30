@@ -26,53 +26,76 @@ struct BaseComputerApp: App {
         .commands {
             CommandGroup(after: CommandGroupPlacement.newItem) {
                 Divider()
-                Button("Open Program") { computer.clear(); openProgram(computer) }
+                Button("Открыть программу") { computer.clear(); openProgram(computer) }
                     .keyboardShortcut("o", modifiers: .command)
-                Button("Save Program") { saveProgram(computer) }
+                Button("Сохранить программу") { saveProgram(computer) }
                     .keyboardShortcut("s", modifiers: .command)
                 
                 Divider()
                 
-                Button("Open Micro Program") { openMicroProgram(computer) }
+                Button("Открыть микро-программу") { openMicroProgram(computer) }
                     .keyboardShortcut("o", modifiers: [.command, .shift])
-                Button("Insert Micro Program") { insertMicroProgram(computer) }
+                Button("Внедрить микро-программу") { insertMicroProgram(computer) }
                     .keyboardShortcut("i", modifiers: .command)
-                Button("Save Micro Program") { saveMicroProgram(computer) }
+                Button("Сохранить микро-программу") { saveMicroProgram(computer) }
                     .keyboardShortcut("s", modifiers: [.command, .shift])
                 
                 Divider()
                 
-                Button("Clear") { computer.clear() }
+                Button("Сбросить БЭВМ") { computer.clear() }
                     .keyboardShortcut("c", modifiers: [.command, .shift])
+                
+                Button("Перезагрузить программу") { computer.restart() }
+                    .keyboardShortcut("r")
             }
             
             
-            CommandMenu("Execution") {
-                Button("Execute Command") { computer.execute(); computer.offset() }
+            CommandMenu("Выполнение") {
+                Button("Выполнить команду") { computer.execute(); computer.offset() }
                     .keyboardShortcut("e", modifiers: [.command])
                     .disabled(!computer.statusRegister.working)
-                Button("Execute Micro Command") { computer.microCommandManager.execute(); computer.offset() }
+                Button("Выполнить микро-команду") { computer.microCommandManager.execute(); computer.offset() }
                     .keyboardShortcut("e", modifiers: [.command, .shift])
                     .disabled(!computer.statusRegister.working)
                 
                 Divider()
                 
-                Button("Trace Commands") { computer.trace(false) }
+                Button("Выполнить трассировку команд") { computer.trace(false) }
                     .keyboardShortcut("t", modifiers: [.command])
-                Button("Trace Micro Commands") { computer.trace(true) }
+                Button("Выполнить трассировку с заданным количеством команд") {
+                    let alert = NSAlert()
+                    let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 200, height: 24))
+                    
+                    alert.alertStyle = NSAlert.Style.informational
+                    alert.addButton(withTitle: "OK")
+                    alert.addButton(withTitle: "Cancel")
+                    alert.messageText = "Введите максимальное количество команд для трассировки"
+                    alert.accessoryView = field
+                    
+                    if alert.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn {
+                        guard let size = Int(field.stringValue) else {
+                            let error = NSAlert()
+                            error.alertStyle = NSAlert.Style.critical
+                            error.messageText = "Вы ввели не число"
+                            
+                            error.runModal()
+                            
+                            return
+                        }
+                        
+                        computer.trace(false, size)
+                    }
+                }
+                    .keyboardShortcut("t", modifiers: [.command, .option])
+                Button("Выполнить трассировку микро-команд") { computer.trace(true) }
                     .keyboardShortcut("t", modifiers: [.command, .shift])
-                Button("Program Description") { saveDescription(computer.program.description) }
+                Button("Получить описание программы") { saveDescription(computer.program.description) }
                     .keyboardShortcut("d", modifiers: [.command, .shift])
                 
                 Divider()
                 
-                Button(mode ? "Command View" : "Micro Command View") { mode.toggle(); computer.offset() }
+                Button(mode ? "Просмотр программы" : "Просмотр микро-программы") { mode.toggle(); computer.offset() }
                     .keyboardShortcut("y")
-                
-                Divider()
-                
-                Button("Restart") { computer.restart() }
-                    .keyboardShortcut("r")
             }
         }
     }
