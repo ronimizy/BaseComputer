@@ -9,94 +9,53 @@ import SwiftUI
 
 @main
 struct BaseComputerApp: App {
-    
-    @ObservedObject var computer = Computer()
-    @State var mode: Bool = false
-    
-    @State var textEditor: Bool = false
+    @AppStorage("default-size") private var defaultSize = 50
+    @AppStorage("max-tracing-length") private var maxTracingLength: Int = 1024
 
-    
+    @State private var isSizeEditing = false
+    @State private var isLengthEditing = false
+
+    private var settingsRowHeight: CGFloat = 50
+
     var body: some Scene {
         WindowGroup {
-            ContentView(mode: $mode)
-                .environmentObject(computer)
-                .frame(minHeight: 450)
-                .frame(width: mode ? 870 : 670)
+            ContentView(size: Int(defaultSize))
+                    .frame(minHeight: 600)
+                    .frame(width: 890)
         }
-        .commands {
-            CommandGroup(after: CommandGroupPlacement.newItem) {
-                Divider()
-                Button("Открыть программу") { computer.clear(); openProgram(computer) }
-                    .keyboardShortcut("o", modifiers: .command)
-                Button("Сохранить программу") { saveProgram(computer) }
-                    .keyboardShortcut("s", modifiers: .command)
-                
-                Divider()
-                
-                Button("Открыть микро-программу") { openMicroProgram(computer) }
-                    .keyboardShortcut("o", modifiers: [.command, .shift])
-                Button("Внедрить микро-программу") { insertMicroProgram(computer) }
-                    .keyboardShortcut("i", modifiers: .command)
-                Button("Сохранить микро-программу") { saveMicroProgram(computer) }
-                    .keyboardShortcut("s", modifiers: [.command, .shift])
-                
-                Divider()
-                
-                Button("Сбросить БЭВМ") { computer.clear() }
-                    .keyboardShortcut("c", modifiers: [.command, .shift])
-                
-                Button("Перезагрузить программу") { computer.restart() }
-                    .keyboardShortcut("r")
-            }
-            
-            
-            CommandMenu("Выполнение") {
-                Button("Выполнить команду") { computer.execute(); computer.offset() }
-                    .keyboardShortcut("e", modifiers: [.command])
-                    .disabled(!computer.statusRegister.working)
-                Button("Выполнить микро-команду") { computer.microCommandManager.execute(); computer.offset() }
-                    .keyboardShortcut("e", modifiers: [.command, .shift])
-                    .disabled(!computer.statusRegister.working)
-                
-                Divider()
-                
-                Button("Выполнить трассировку команд") { computer.trace(false) }
-                    .keyboardShortcut("t", modifiers: [.command])
-                Button("Выполнить трассировку с заданным количеством команд") {
-                    let alert = NSAlert()
-                    let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 200, height: 24))
-                    
-                    alert.alertStyle = NSAlert.Style.informational
-                    alert.addButton(withTitle: "OK")
-                    alert.addButton(withTitle: "Cancel")
-                    alert.messageText = "Введите максимальное количество команд для трассировки"
-                    alert.accessoryView = field
-                    
-                    if alert.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn {
-                        guard let size = Int(field.stringValue) else {
-                            let error = NSAlert()
-                            error.alertStyle = NSAlert.Style.critical
-                            error.messageText = "Вы ввели не число"
-                            
-                            error.runModal()
-                            
-                            return
-                        }
-                        
-                        computer.trace(false, size)
-                    }
+
+        Settings {
+            TabView {
+                VStack {
+                    HStack {
+                        Text("Стандартный размер программы")
+                        Spacer()
+                        TextField(String(defaultSize), value: $defaultSize, formatter: NumberFormatter(),
+                                onEditingChanged: { isSizeEditing = $0 },
+                                onCommit: { defaultSize %= 2049 })
+                                .textFieldStyle(UnderlinedTextFieldStyle(editing: $isSizeEditing,
+                                        fieldHeight: settingsRowHeight))
+                                .frame(width: 50)
+                    }.frame(height: settingsRowHeight)
+
+                    HStack {
+                        Text("Максимальная длина трассировки")
+                        Spacer()
+                        TextField(String(maxTracingLength), value: $maxTracingLength, formatter: NumberFormatter(),
+                                onEditingChanged: { isLengthEditing = $0 })
+                                .textFieldStyle(UnderlinedTextFieldStyle(editing: $isLengthEditing,
+                                        fieldHeight: settingsRowHeight))
+                                .frame(width: 50)
+                    }.frame(height: settingsRowHeight)
+
+                    Spacer()
+                }.tabItem {
+                    Image(systemName: "tray.full.fill")
+                    Text("Настройки")
                 }
-                    .keyboardShortcut("t", modifiers: [.command, .option])
-                Button("Выполнить трассировку микро-команд") { computer.trace(true) }
-                    .keyboardShortcut("t", modifiers: [.command, .shift])
-                Button("Получить описание программы") { saveDescription(computer.program.description) }
-                    .keyboardShortcut("d", modifiers: [.command, .shift])
-                
-                Divider()
-                
-                Button(mode ? "Просмотр программы" : "Просмотр микро-программы") { mode.toggle(); computer.offset() }
-                    .keyboardShortcut("y")
             }
+                    .padding()
+                    .frame(width: 350, height: 250)
         }
     }
 }
