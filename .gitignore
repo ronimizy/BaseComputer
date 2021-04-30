@@ -2,7 +2,8 @@
 #
 .DS_Store
 BaseComputer/Assets.xcassets
-*.xcodeproj
+BaseComputer.xcodeproj
+BaseComputer/Preview Content
 
 .idea
 
