@@ -2,8 +2,6 @@
 #
 .DS_Store
 BaseComputer/Assets.xcassets
-BaseComputer.xcodeproj
-BaseComputer/Preview Content
 
 .idea
 
@@ -95,3 +93,5 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
+/BaseComputer.xcodeproj/
+/BaseComputer/Preview Content/
