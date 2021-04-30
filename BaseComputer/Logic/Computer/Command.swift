@@ -71,7 +71,7 @@ struct Command: ComputerCommand, Hashable {
                 if Command.commandsArray[String(value.maskAddressCommand(), radix: 16).commandFormat()] != nil {
                     return Command.commandsArray[String(value.maskAddressCommand(), radix: 16).commandFormat()]!
                             + (value.isIndirect() ? " (" : " ")
-                            + String(value.masked11(), radix: 16).setLength(3).uppercased()
+                            + String(value.masked11(), radix: 16).withLength(3).uppercased()
                             + (value.isIndirect() ? ")" : "")
                 } else {
                     return string

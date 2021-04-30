@@ -114,51 +114,15 @@ class Computer: ObservableObject {
     }
 
     init(_ size: Int = 50) {
-        let program = Binding(get: {
-            self.program
-        }, set: { (program) in
-            self.program = program
-        })
-        let shift = Binding(get: {
-            self.shift
-        }, set: { (shift) in
-            self.shift = shift
-        })
-        let accumulator = Binding(get: {
-            self.accumulator
-        }, set: { (accumulator) in
-            self.accumulator = accumulator
-        })
-        let commandCounter = Binding(get: {
-            self.commandCounter
-        }, set: { (commandCounter) in
-            self.commandCounter = commandCounter
-        })
-        let addressRegister = Binding(get: {
-            self.addressRegister
-        }, set: { (addressRegister) in
-            self.addressRegister = addressRegister
-        })
-        let commandRegister = Binding(get: {
-            self.commandRegister
-        }, set: { (commandRegister) in
-            self.commandRegister = commandRegister
-        })
-        let dataRegister = Binding(get: {
-            self.dataRegister
-        }, set: { (dataRegister) in
-            self.dataRegister = dataRegister
-        })
-        let statusRegister = Binding(get: {
-            self.statusRegister
-        }, set: { (statusRegister) in
-            self.statusRegister = statusRegister
-        })
-        let externalDevices = Binding(get: {
-            self.externalDevices
-        }, set: { (externalDevices) in
-            self.externalDevices = externalDevices
-        })
+        let program = Binding(get: { self.program }, set: { self.program = $0 })
+        let shift = Binding(get: { self.shift }, set: { self.shift = $0 })
+        let accumulator = Binding(get: { self.accumulator }, set: { self.accumulator = $0 })
+        let commandCounter = Binding(get: { self.commandCounter }, set: { self.commandCounter = $0 })
+        let addressRegister = Binding(get: { self.addressRegister }, set: { self.addressRegister = $0 })
+        let commandRegister = Binding(get: { self.commandRegister }, set: { self.commandRegister = $0 })
+        let dataRegister = Binding(get: { self.dataRegister }, set: { self.dataRegister = $0 })
+        let statusRegister = Binding(get: { self.statusRegister }, set: { self.statusRegister = $0 })
+        let externalDevices = Binding(get: { self.externalDevices }, set: { self.externalDevices = $0  })
 
 
         self._program = Published(initialValue: Program(0, size))
@@ -180,7 +144,5 @@ class Computer: ObservableObject {
                 dataRegister: dataRegister,
                 statusRegister: statusRegister,
                 externalDevices: externalDevices))
-
-
     }
 }

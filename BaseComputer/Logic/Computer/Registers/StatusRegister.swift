@@ -18,7 +18,7 @@ struct StatusRegister {
     var allowInterruptBuffer: Bool = false
     var allowInterrupt: Bool {
         get {
-            return allowInterruptBuffer
+            allowInterruptBuffer
         }
         set {
             allowInterruptBuffer = newValue
@@ -29,7 +29,9 @@ struct StatusRegister {
     var interrupted: Bool = false
     var externalDevice: Bool {
         get {
-            return computer?.externalDevices[0].isReady ?? false || computer?.externalDevices[1].isReady ?? false || computer?.externalDevices[2].isReady ?? false
+            computer?.externalDevices[0].isReady ?? false ||
+                    computer?.externalDevices[1].isReady ?? false ||
+                    computer?.externalDevices[2].isReady ?? false
         }
         set {
 

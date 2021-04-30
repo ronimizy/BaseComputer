@@ -24,20 +24,22 @@ struct ExternalDevice {
 
     mutating func getValue() -> UInt8 {
         let value = self.value
+        guard let index = queue.firstIndex(of: " ") else {
+            queue = ""
+            return 0
+        }
 
-        var components = queue.components(separatedBy: " ")
+        let prefix = queue.prefix(upTo: index)
+        queue = String(queue[index...queue.endIndex])
+        queue.removeFirst()
 
-        guard UInt8(components[0], radix: 16) != nil else {
+        guard let value = UInt8(prefix, radix: 16) else {
             self.queue = ""
             self.value = 0
             return value
         }
 
-        self.value = UInt8(components[0], radix: 16)!
-
-        components.removeFirst()
-
-        self.queue = components.count == 0 ? " " : components.joined(separator: " ")
+        self.value = value
 
         return value
     }

@@ -8,10 +8,10 @@
 import SwiftUI
 
 extension Color {
+    static var selected: Color = Color.init("Selected")
+
     class rows {
         static var odd: Color = Color.init("Odd")
         static var even: Color = Color.init("Even")
     }
-
-    static var selected: Color = Color.init("Selected")
 }

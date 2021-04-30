@@ -20,8 +20,6 @@
 		5E27A00A256C54CB00045ED5 /* MicroCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E279FF7256C54CB00045ED5 /* MicroCommand.swift */; };
 		5E36526C25757EB900BEB055 /* ComputerCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E36526B25757EB900BEB055 /* ComputerCommand.swift */; };
 		5E697B692573A79A006307A5 /* Html.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E697B682573A79A006307A5 /* Html.swift */; };
-		5E6C84F4258B43CA0069E76B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 5E6C84F3258B43CA0069E76B /* README.md */; };
-		5E6C84F7258B43F00069E76B /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 5E6C84F6258B43F00069E76B /* .gitignore */; };
 		5E6C84FE2590C26A0069E76B /* MicroCommandStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6C84FD2590C26A0069E76B /* MicroCommandStatus.swift */; };
 		5E7CBCB225739DB700FAFAAF /* CommandStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7CBCB125739DB700FAFAAF /* CommandStatus.swift */; };
 		5E93E6BA2639A84100A36172 /* UnderlinedTextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E93E6B92639A84100A36172 /* UnderlinedTextFieldStyle.swift */; };
@@ -326,8 +324,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5E6C84F7258B43F00069E76B /* .gitignore in Resources */,
-				5E6C84F4258B43CA0069E76B /* README.md in Resources */,
 				5E279FD2256C54A200045ED5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

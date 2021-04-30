@@ -20,7 +20,9 @@ struct Program {
             var array: [[String]] = []
 
             for i in commands.indices {
-                if !(commands[i].value == 0 && (i != 0 && commands[i - 1].value == 0) && (i != 2047 && commands[i + 1].value == 0)) {
+                if !(commands[i].value == 0 &&
+                        (i != 0 && commands[i - 1].value == 0) &&
+                        (i != 2047 && commands[i + 1].value == 0)) {
                     let command = commands[i]
 
                     array.append([
