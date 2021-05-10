@@ -19,7 +19,7 @@ extension String {
 
     func withLength(_ length: Int) -> String {
         var value = self
-        value = String(repeating: "0", count: length - value.count)
+        value = String(repeating: "0", count: length - value.count) + value
 
         if value.count > length {
             value.removeFirst(value.count - length)

@@ -95,7 +95,6 @@ fastlane/test_output
 iOSInjectionProject/
 /BaseComputer.xcodeproj/
 /BaseComputer/Preview Content/
-avatar.png
-logo.png
+*.png
 logo.psd
 Packages.pkgproj

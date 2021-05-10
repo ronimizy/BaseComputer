@@ -49,7 +49,7 @@ struct Command: ComputerCommand, Hashable {
             String(self.value, radix: 16).commandFormat()
         }
         set {
-            self.value = UInt16((Int(newValue, radix: 16) ?? 0) & Int(UInt16.max))
+            self.value = UInt16(newValue, radix: 16) ?? UInt16.max
         }
     }
 
