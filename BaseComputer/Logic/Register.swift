@@ -7,10 +7,14 @@ import Foundation
 struct Register<TUInt> where TUInt: UnsignedInteger, TUInt: FixedWidthInteger {
     private var size: Int
     private let defaultValue: TUInt
-
+    @Synchronized private var valueBacker: TUInt
+    
     var value: TUInt {
-        didSet {
-            value.mask(size)
+        get {
+            valueBacker
+        }
+        set {
+            valueBacker = newValue.masked(size)
         }
     }
 
@@ -24,13 +28,13 @@ struct Register<TUInt> where TUInt: UnsignedInteger, TUInt: FixedWidthInteger {
     }
 
     init(defaultValue: TUInt, size: Int = 16) {
-        self.value = defaultValue
+        self.valueBacker = defaultValue
         self.defaultValue = defaultValue
         self.size = size
     }
 
     init(_ value: TUInt = 0, size: Int = 16) {
-        self.value = value
+        self.valueBacker = value
         self.defaultValue = 0
         self.size = size
     }

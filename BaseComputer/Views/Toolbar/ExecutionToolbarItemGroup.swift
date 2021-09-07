@@ -22,7 +22,7 @@ struct ExecutionToolbarItemGroup: ToolbarContent {
                 Image(systemName: "eyeglasses")
             })
             .onChange(of: mode) { _ in
-                computer.offset(.top)
+                computer.offset(.center)
             }
             .keyboardShortcut("y")
             .help((mode ? "Просмотр программы" : "Просмотр микро-программы") + " - ⌘Y")

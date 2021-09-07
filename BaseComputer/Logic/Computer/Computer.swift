@@ -182,7 +182,5 @@ class Computer: ObservableObject {
                 dataRegister: dataRegister,
                 statusRegister: statusRegister,
                 externalDevices: externalDevices))
-
-
     }
 }

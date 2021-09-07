@@ -18,11 +18,9 @@ extension NSTextField {
 }
 
 struct UnderlinedTextFieldStyle: TextFieldStyle {
-    @Binding private var editing: Bool
     private var fieldHeight: CGFloat
 
-    init(editing: Binding<Bool>, fieldHeight: CGFloat) {
-        self._editing = editing
+    init(fieldHeight: CGFloat) {
         self.fieldHeight = fieldHeight
     }
 
@@ -35,7 +33,7 @@ struct UnderlinedTextFieldStyle: TextFieldStyle {
                                     .frame(height: fieldHeight * 0.5)
 
                             Rectangle()
-                                    .fill(editing ? Color.blue : Color.secondary)
+                                    .fill(Color.secondary)
                                     .frame(height: 1)
                         }
                 )
@@ -45,7 +43,7 @@ struct UnderlinedTextFieldStyle: TextFieldStyle {
 struct UnderlinedTextFieldStyle_Previews: PreviewProvider {
     static var previews: some View {
         TextField("0", text: .constant("Str"))
-                .textFieldStyle(UnderlinedTextFieldStyle(editing: .constant(true), fieldHeight: 50))
+                .textFieldStyle(UnderlinedTextFieldStyle(fieldHeight: 50))
                 .frame(height: 50)
                 .padding()
     }

@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct ExternalDevice {
-    var isReady: Bool = false
-
-    var value: UInt8 = 0
+    
+    @Synchronized public var isReady: Bool = false
+    @Synchronized public var value: UInt8 = 0
+    
     var string: String {
         get {
             String(value, radix: 16).uppercased()

@@ -8,19 +8,19 @@
 import SwiftUI
 import Combine
 
-struct CommandCellView: View {
-    @State private var isEditing = false
-
+struct CommandView: View {
     @Binding private var commandCounter: Register<UInt16>
     @Binding private var start: UInt16
-    @Binding private var command: Command
-
+    private var command: CommandViewModel
+    
+    private static let fontSize: CGFloat = 13
+    
     init(commandCounter: Binding<Register<UInt16>>,
          start: Binding<UInt16>,
-         command: Binding<Command>) {
+         command: CommandViewModel) {
         self._commandCounter = commandCounter
         self._start = start
-        self._command = command
+        self.command = command
     }
     
     var body: some View {
@@ -28,18 +28,18 @@ struct CommandCellView: View {
             ZStack {
                 HStack {
                     Spacer()
-                    Text(String(command.number, radix: 16).commandFormat(3))
+                    Text(command.number)
                         .padding(.horizontal)
                     Spacer()
                         .frame(width: g.size.width * 0.6)
                 }
                 
                 VStack(alignment: .center) {
-                    TextField("0000", text: $command.string)
-                        .font(.system(size: 13))
-                        .frame(width: command.string.widthOfString(usingFont: .systemFont(ofSize: 13)))
+                    TextField("0000", text: command.value)
+                        .font(.system(size: CommandView.fontSize))
+                        .frame(width: command.value.wrappedValue.widthOfString(usingFont: .systemFont(ofSize: CommandView.fontSize)))
                 }
-                .textFieldStyle(UnderlinedTextFieldStyle(editing: $isEditing, fieldHeight: g.size.height))
+                .textFieldStyle(UnderlinedTextFieldStyle(fieldHeight: g.size.height))
                 
                 HStack {
                     Spacer()
@@ -52,19 +52,19 @@ struct CommandCellView: View {
                 }
             }
             .frame(width: g.size.width, height: g.size.height, alignment: .center)
-            .background(command.number == Int(commandCounter.value)
+            .background(Int(command.number, radix: 16) == Int(commandCounter.value)
                             ? Color.selected
-                            : command.number % 2 == 0 ? Color.rows.even : Color.rows.odd)
+                            : (Int(command.number, radix: 16) ?? 0) % 2 == 0 ? Color.rows.even : Color.rows.odd)
             .contextMenu(ContextMenu(menuItems: {
-                Button("Перевести счётчик на эту ячейку") { commandCounter.value = UInt16(command.number) }
+                Button("Перевести счётчик на эту ячейку") { commandCounter.value = UInt16(command.number) ?? 0 }
                 Button("Сделать эту ячейку начальной") {
-                    start = UInt16(command.number)
+                    start = UInt16(command.number) ?? 0
                     commandCounter.value = start
                 }
-                Button("Скопировать значение ячейки") { ClipboardManager.copy(command.string) }
+                Button("Скопировать значение ячейки") { ClipboardManager.copy(command.value.wrappedValue) }
                 Button("Скопировать мнемонику ячейки") { ClipboardManager.copy(command.mnemonics) }
                 Button("Скопировать ячейку") {
-                    ClipboardManager.copy("\(command.value) \(command.string) \"\(command.mnemonics)\"")
+                    ClipboardManager.copy("\(command.value) \(command.value.wrappedValue) \"\(command.mnemonics)\"")
                 }
             }))
         }

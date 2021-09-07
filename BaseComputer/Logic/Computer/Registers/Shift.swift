@@ -8,22 +8,11 @@
 import Foundation
 
 struct Shift {
-    var value: Bool {
-        get {
-            return buffer
-        }
-        set {
-            string = newValue ? "1" : "0"
-            buffer = newValue
-        }
-    }
-    private var buffer: Bool = false
+    @Synchronized var value: Bool = false
+    
     var string: String {
         get {
-            buffer ? "1" : "0"
-        }
-        set {
-            buffer = ((newValue == "0") ? false : ((newValue == "1") ? false : buffer))
+            value ? "1" : "0"
         }
     }
 

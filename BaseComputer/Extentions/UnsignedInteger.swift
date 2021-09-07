@@ -30,10 +30,6 @@ extension UnsignedInteger where Self: FixedWidthInteger {
         }
     }
 
-    mutating func mask(_ n: Int) {
-        self = self[0...(n - 1)]
-    }
-
     func masked(_ n: Int) -> Self {
         self[0...(n - 1)]
     }

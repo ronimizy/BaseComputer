@@ -10,14 +10,10 @@ import AppKit
 
 extension String {
     func commandFormat(_ length: Int = 4) -> String {
-        return self.setLength(length).uppercased()
+        withLength(length).uppercased()
     }
 
-    mutating func commandFormat(_ length: Int = 4) {
-        self = self.commandFormat(length)
-    }
-
-    func setLength(_ length: Int) -> String {
+    func withLength(_ length: Int) -> String {
         var value = self
         while value.count < length {
             value = "0" + value

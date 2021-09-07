@@ -13,26 +13,21 @@ struct Program {
     var commands: [Command] = []
     var initial: [Command]
     var changed: Command?
-
+    
     var description: [[String]] {
-        get {
-            var array: [[String]] = []
-
-            for i in commands.indices {
-                if !(commands[i].value == 0 && (i != 0 && commands[i - 1].value == 0) && (i != 2047 && commands[i + 1].value == 0)) {
-                    let command = commands[i]
-
-                    array.append([
-                        String(i, radix: 16).commandFormat(3),
-                        command.string,
-                        command.mnemonics,
-                        command.description
-                    ])
-                }
-            }
-
-            return array
-        }
+        commands
+            .filter({ $0.value != 0})
+            .map({command in
+                Binding<Command>(get: { command },
+                                 set: { _ in fatalError("Command should not be settable") })
+            })
+            .map({ CommandViewModelFactory.create(command: $0) })
+            .map({ [
+                $0.number,
+                $0.value.wrappedValue,
+                $0.mnemonics,
+                $0.description
+            ] })
     }
     
     func index(before i: Int) -> Int {

@@ -91,14 +91,10 @@ struct MicroCommandManger {
 
     mutating func execute() {
         if microCommandCounter.value == microCommandMemory.count - 1 {
-            syncMain {
-                commandCounter.value = 0
-            }
+            commandCounter.value = 0
         }
         let command = microCommandMemory[Int(microCommandCounter.value)]
-        syncMain {
-            microCommandRegister.value = command.value
-        }
+        microCommandRegister.value = command.value
 
         switch command.operationCode() {
         case 0:
@@ -145,17 +141,11 @@ struct MicroCommandManger {
 
             switch command.operation() {
             case 0:
-                syncMain {
-                    buffer.value = UInt32(left) + UInt32(right)
-                }
+                buffer.value = UInt32(left) + UInt32(right)
             case 1:
-                syncMain {
-                    buffer.value = UInt32(left) + UInt32(right) + 1
-                }
+                buffer.value = UInt32(left) + UInt32(right) + 1
             case 2:
-                syncMain {
-                    buffer.value = UInt32(left & right)
-                }
+                buffer.value = UInt32(left & right)
             default:
                 print("Command \(command.number) [\(command.string)] default on operation, value: \(command.operation())")
             }
@@ -164,13 +154,9 @@ struct MicroCommandManger {
             case 0:
                 ()
             case 1:
-                syncMain {
-                    buffer.value = (UInt32(accumulator.value) >> 1) + (accumulator.value[0] == 1 ? UInt32(0x1p15) : 0)
-                }
+                buffer.value = (UInt32(accumulator.value) >> 1) + (accumulator.value[0] == 1 ? UInt32(0x1p15) : 0)
             case 2:
-                syncMain {
-                    buffer.value = UInt32(accumulator.value) << 1 + (accumulator.value[15] == 1 ? 1 : 0)
-                }
+                buffer.value = UInt32(accumulator.value) << 1 + (accumulator.value[15] == 1 ? 1 : 0)
             default:
                 print("Command \(command.number) [\(command.string)] default on shifts, value: \(command.shifts())")
             }
@@ -179,9 +165,7 @@ struct MicroCommandManger {
             case 0:
                 ()
             case 1:
-                syncMain {
-                    dataRegister.value = program[addressRegister.value].value
-                }
+                dataRegister.value = program[addressRegister.value].value
             case 2:
                 syncMain {
                     program[addressRegister.value].value = dataRegister.value
@@ -191,52 +175,37 @@ struct MicroCommandManger {
                 print("Command \(command.number) [\(command.string)] default on memory, value: \(command.memory())")
             }
 
-            syncMain {
-                microCommandCounter += 1
-            }
+            microCommandCounter += 1
 
         case 1:
             switch command.exchange() {
             case 0:
                 ()
             case 1:
+                let index = Int(commandRegister.value.masked(8)) - 1
+                
                 switch commandRegister.value.maskIOCommand() {
                 case UInt16("E000", radix: 16):
-                    syncMain {
-                        externalDevices[Int(commandRegister.value.masked(8)) - 1].isReady = externalDevices[Int(commandRegister.value.masked(8)) - 1].queue != ""
-                    }
+                    externalDevices[index].isReady = externalDevices[index].queue != ""
                 case UInt16("E100", radix: 16):
-                    if externalDevices[Int(commandRegister.value.masked(8)) - 1].isReady {
-                        syncMain {
-                            commandCounter += 1
-                        }
+                    if externalDevices[index].isReady {
+                        commandCounter += 1
                     }
                 case UInt16("E200", radix: 16):
-                    syncMain {
-                        accumulator.value = UInt16(externalDevices[Int(commandRegister.value.masked(8)) - 1].getValue())
-                    }
+                    accumulator.value = UInt16(externalDevices[index].getValue())
                 case UInt16("E300", radix: 16):
-                    syncMain {
-                        externalDevices[Int(commandRegister.value.masked(8)) - 1].value = UInt8(accumulator.value.masked(8))
-                    }
+                    externalDevices[index].value = UInt8(accumulator.value.masked(8))
                 default:
                     print("Command \(command.number) [\(command.string)] default on IO switch")
                 }
             case 2:
-                syncMain {
-                    statusRegister.externalDevice = false
-                    for device in externalDevices.indices {
-                        externalDevices[device].isReady = false
-                    }
+                for device in externalDevices.indices {
+                    externalDevices[device].isReady = false
                 }
             case 4:
-                syncMain {
-                    statusRegister.allowInterrupt = false
-                }
+                statusRegister.allowInterrupt = false
             case 8:
-                syncMain {
-                    statusRegister.allowInterrupt = true
-                }
+                statusRegister.allowInterrupt = true
             default:
                 print("Command \(command.number) [\(command.string)] default on exchange, value: \(command.exchange())")
             }
@@ -245,9 +214,7 @@ struct MicroCommandManger {
             case 0:
                 ()
             case 1:
-                syncMain {
-                    statusRegister.working = false
-                }
+                statusRegister.working = false
             default:
                 print("Command \(command.number) [\(command.string)] default on terminate, value: \(command.terminate())")
             }
@@ -256,32 +223,20 @@ struct MicroCommandManger {
             case 0:
                 ()
             case 1:
-                syncMain {
-                    addressRegister.value = UInt16(buffer.value.masked(16))
-                }
+                addressRegister.value = UInt16(buffer.value.masked(16))
             case 2:
-                syncMain {
-                    dataRegister.value = UInt16(buffer.value.masked(16))
-                }
+                dataRegister.value = UInt16(buffer.value.masked(16))
             case 3:
-                syncMain {
-                    commandRegister.value = UInt16(buffer.value.masked(16))
-                }
+                commandRegister.value = UInt16(buffer.value.masked(16))
             case 4:
-                syncMain {
-                    commandCounter.value = UInt16(buffer.value.masked(16))
-                }
+                commandCounter.value = UInt16(buffer.value.masked(16))
             case 5:
-                syncMain {
-                    accumulator.value = UInt16(buffer.value.masked(16))
-                }
+                accumulator.value = UInt16(buffer.value.masked(16))
             case 7:
-                syncMain {
-                    addressRegister.value = UInt16(buffer.value.masked(16))
-                    dataRegister.value = UInt16(buffer.value.masked(16))
-                    commandRegister.value = UInt16(buffer.value.masked(16))
-                    accumulator.value = UInt16(buffer.value.masked(16))
-                }
+                addressRegister.value = UInt16(buffer.value.masked(16))
+                dataRegister.value = UInt16(buffer.value.masked(16))
+                commandRegister.value = UInt16(buffer.value.masked(16))
+                accumulator.value = UInt16(buffer.value.masked(16))
             default:
                 print("Command \(command.number) [\(command.string)] default on destination, value: \(command.destination())")
             }
@@ -291,17 +246,11 @@ struct MicroCommandManger {
             case 0:
                 ()
             case 1:
-                syncMain {
-                    shift.value = buffer.value[16] == 1
-                }
+                shift.value = buffer.value[16] == 1
             case 2:
-                syncMain {
-                    shift.value = false
-                }
+                shift.value = false
             case 3:
-                syncMain {
-                    shift.value = true
-                }
+                shift.value = true
             default:
                 print("Command \(command.number) [\(command.string)] default on shift, value: \(command.shift())")
             }
@@ -310,9 +259,7 @@ struct MicroCommandManger {
             case 0:
                 ()
             case 1:
-                syncMain {
-                    statusRegister.null = buffer.value == 0
-                }
+                statusRegister.null = buffer.value == 0
             default:
                 print("Micro Command \(command.number) [\(command.string)] default on null, value: \(command.null())")
             }
@@ -321,16 +268,12 @@ struct MicroCommandManger {
             case 0:
                 ()
             case 1:
-                syncMain {
-                    statusRegister.sign = buffer.value[15] == 1
-                }
+                statusRegister.sign = buffer.value[15] == 1
             default:
                 print("Micro Command \(command.number) [\(command.string)] default on sign, value: \(command.null())")
             }
 
-            syncMain {
-                microCommandCounter += 1
-            }
+            microCommandCounter += 1
 
         case 2:
             var checked: UInt16 = 0
@@ -372,16 +315,12 @@ struct MicroCommandManger {
             case 2:
                 checked = commandRegister.value[Int(command.bitChecked())]
                 if command.address() == UInt16("1D", radix: 16) {
-                    syncMain {
-                        statusRegister.commandFetch = false
-                        statusRegister.addressFetch = true
-                    }
+                    statusRegister.commandFetch = false
+                    statusRegister.addressFetch = true
                 }
                 if command.address() == UInt16("1E", radix: 16) {
-                    syncMain {
-                        statusRegister.addressFetch = false
-                        statusRegister.execution = true
-                    }
+                    statusRegister.addressFetch = false
+                    statusRegister.execution = true
                 }
 
             case 3:
@@ -390,16 +329,14 @@ struct MicroCommandManger {
                 print("Command \(command.number) default on bit check, register: \(command.register()), value: \(command.bitChecked())")
             }
 
-            syncMain {
-                if checked == command.compareField() {
-                    microCommandCounter.value = command.address()
-                    if command.address() == 1 {
-                        statusRegister.commandFetch = false
-                        statusRegister.addressFetch = false
-                    }
-                } else {
-                    microCommandCounter += 1
+            if checked == command.compareField() {
+                microCommandCounter.value = command.address()
+                if command.address() == 1 {
+                    statusRegister.commandFetch = false
+                    statusRegister.addressFetch = false
                 }
+            } else {
+                microCommandCounter += 1
             }
 
 

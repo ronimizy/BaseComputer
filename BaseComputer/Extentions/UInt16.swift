@@ -12,10 +12,6 @@ extension UInt16 {
         ~self == UINT16_MAX ? 1 : ~self + 1
     }
 
-    func isIndirect() -> Bool {
-        self[11] == 1
-    }
-
     func masked11() -> UInt16 {
         self.masked(11)
     }

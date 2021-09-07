@@ -9,7 +9,6 @@ struct AddCommandsBarView: View {
 
     @Binding private var countToAdd: Int
 
-    @State private var isAddFieldEditing = false
     @State private var isAddButtonHovered = false
 
     private let cellHeight: CGFloat
@@ -24,11 +23,8 @@ struct AddCommandsBarView: View {
             Spacer()
 
             Text("Добавить команды: ")
-            TextField("0", value: $countToAdd, formatter: NumberFormatter(), onEditingChanged: { editing in
-                isAddFieldEditing = editing
-            })
-                    .textFieldStyle(UnderlinedTextFieldStyle(editing: $isAddFieldEditing,
-                            fieldHeight: cellHeight))
+            TextField("0", value: $countToAdd, formatter: NumberFormatter())
+                    .textFieldStyle(UnderlinedTextFieldStyle(fieldHeight: cellHeight))
                     .font(.system(size: 13))
                     .frame(width: "DDDD".widthOfString(usingFont: .systemFont(ofSize: 13)))
 

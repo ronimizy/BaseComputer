@@ -105,7 +105,7 @@ struct ProgramCoder {
                 result += "+ "
             }
             
-            result += String(command.number, radix: 16).setLength(3).uppercased()
+            result += String(command.number, radix: 16).withLength(3).uppercased()
             result += " \(command.string)\n"
         }
         return result

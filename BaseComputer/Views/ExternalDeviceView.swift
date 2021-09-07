@@ -9,8 +9,6 @@ import SwiftUI
 
 struct ExternalDeviceView: View {
     @EnvironmentObject private var computer: Computer
-    @State private var queueIsEditing = [false, false, false]
-    @State private var valueIsEditing = [false, false, false]
 
     private var rowHeight: CGFloat = 40
 
@@ -24,10 +22,9 @@ struct ExternalDeviceView: View {
 
                         Text("ВУ-\(number + 1)")
                         Text("РД:")
-                        TextField("00", text: $computer.externalDevices[number].string,
-                                onEditingChanged: { valueIsEditing[number] = $0 })
+                        TextField("00", text: $computer.externalDevices[number].string)
                                 .frame(maxWidth: 40)
-                                .textFieldStyle(UnderlinedTextFieldStyle(editing: $valueIsEditing[number], fieldHeight: rowHeight))
+                                .textFieldStyle(UnderlinedTextFieldStyle(fieldHeight: rowHeight))
                         Toggle(isOn: $computer.externalDevices[number].isReady, label: {
                             Text("Готовность")
                                     .padding(.trailing)
@@ -38,11 +35,10 @@ struct ExternalDeviceView: View {
 
                         Text("Очередь:")
                                 .help("Записывайте значения через пробелы")
-                        TextField("00", text: $computer.externalDevices[number].queue,
-                                onEditingChanged: { queueIsEditing[number] = $0 })
+                        TextField("00", text: $computer.externalDevices[number].queue)
                                 .lineLimit(1)
                                 .frame(maxWidth: 135)
-                                .textFieldStyle(UnderlinedTextFieldStyle(editing: $queueIsEditing[number], fieldHeight: rowHeight))
+                                .textFieldStyle(UnderlinedTextFieldStyle(fieldHeight: rowHeight))
                                 .padding(.trailing)
                     }.frame(height: rowHeight)
 

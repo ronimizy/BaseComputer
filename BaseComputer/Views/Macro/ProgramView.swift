@@ -22,9 +22,9 @@ struct ProgramView: View {
                     VStack(spacing: 0) {
                         BindingForEach($computer.program) { command in
                             RenderIfWillBeSeen(bounds: g, size: CGSize(width: g.size.width, height: ProgramView.cellHeight)) {
-                                CommandCellView(commandCounter: $computer.commandCounter,
+                                CommandView(commandCounter: $computer.commandCounter,
                                                 start: $computer.program.start,
-                                                command: command)
+                                                command: CommandViewModelFactory.create(command: command))
                             }
                         }
                         
