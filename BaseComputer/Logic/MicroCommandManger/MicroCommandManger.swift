@@ -212,8 +212,9 @@ struct MicroCommandManger {
                         }
                     }
                 case UInt16("E200", radix: 16):
+                    let maskedAccumulator = accumulator.value & 0xFF00
                     syncMain {
-                        accumulator.value = UInt16(externalDevices[Int(commandRegister.value.masked(8)) - 1].getValue())
+                        accumulator.value = maskedAccumulator + UInt16(externalDevices[Int(commandRegister.value.masked(8)) - 1].getValue())
                     }
                 case UInt16("E300", radix: 16):
                     syncMain {
