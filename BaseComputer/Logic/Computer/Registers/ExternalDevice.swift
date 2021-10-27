@@ -29,7 +29,6 @@ struct ExternalDevice {
 
         guard UInt8(components[0], radix: 16) != nil else {
             self.queue = ""
-            self.value = 0
             return value
         }
 
