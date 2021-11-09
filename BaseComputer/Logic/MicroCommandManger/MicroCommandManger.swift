@@ -23,6 +23,7 @@ struct MicroCommandManger {
     var microCommandRegister: Register<UInt16> = Register(0)
 
     var buffer: Register<UInt32> = Register(size: 17)
+    var bufferShift: Bool
 
     var microCommandMemory: [MicroCommand] = MicroCommand.array(MicroCommandManger.defaultCommands)
 
@@ -105,6 +106,8 @@ struct MicroCommandManger {
             var left: UInt16 = 0
             var right: UInt16 = 0
 
+            bufferShift = false
+
             switch command.leftGate() {
             case 0:
                 left = 0
@@ -164,12 +167,14 @@ struct MicroCommandManger {
             case 0:
                 ()
             case 1:
+                bufferShift = accumulator.value[0] == 1
                 syncMain {
-                    buffer.value = (UInt32(accumulator.value) >> 1) + (accumulator.value[0] == 1 ? UInt32(0x1p15) : 0)
+                    buffer.value = (UInt32(accumulator.value) >> 1)
                 }
             case 2:
+                bufferShift = accumulator.value[15] == 1
                 syncMain {
-                    buffer.value = UInt32(accumulator.value) << 1 + (accumulator.value[15] == 1 ? 1 : 0)
+                    buffer.value = UInt32(accumulator.value) << 1
                 }
             default:
                 print("Command \(command.number) [\(command.string)] default on shifts, value: \(command.shifts())")
@@ -293,7 +298,7 @@ struct MicroCommandManger {
                 ()
             case 1:
                 syncMain {
-                    shift.value = buffer.value[16] == 1
+                    shift.value = bufferShift
                 }
             case 2:
                 syncMain {
